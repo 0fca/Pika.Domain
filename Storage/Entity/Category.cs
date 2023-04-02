@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
+using Pika.Domain.Infrastructure;
 using Pika.Domain.Storage.Entity.Event;
 
 namespace Pika.Domain.Storage.Entity;
@@ -27,7 +29,7 @@ public sealed class Category : AggregateBase
     
     public override string ToString()
     {
-        return $"{this.Name};{this.Description}";
+        return $"{this.Id};{this.Name};{this.Description};{this.GetMimesAsString()};{this.GetTagsAsString()}";
     }
 
     public void SetName(string name)
@@ -84,8 +86,17 @@ public sealed class Category : AggregateBase
 
     public string GetMimesAsString()
     {
-        var mimes = new StringBuilder();
-        this.Mimes.ToList().ForEach(m => mimes.Append(m+";"));
-        return mimes.ToString();
+        return this.CollectionToString(this.Mimes);
+    }
+
+    public string GetTagsAsString()
+    {
+        return this.CollectionToString(this.Tags);
+    }
+
+    public string NormalizedHash()
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(this.ToString());
+        return HashHelper.HashUtf8Bytes(bytes).Normalize().ToUpper();
     }
 }

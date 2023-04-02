@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Pika.Domain.Storage;
 
@@ -23,5 +24,12 @@ public class AggregateBase
     protected void AddUncommittedEvent(object @event)
     {
         _uncommittedEvents.Add(@event);
-    } 
+    }
+    
+    protected string CollectionToString<T>(IEnumerable<T> enumerable)
+    {
+        var sb = new StringBuilder();
+        enumerable.ToList<T>().ForEach(m => sb.Append(m+";"));
+        return sb.ToString();
+    }
 }
