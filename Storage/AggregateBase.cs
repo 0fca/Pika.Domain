@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
+using Pika.Domain.Infrastructure;
 
 namespace Pika.Domain.Storage;
 
@@ -31,5 +32,11 @@ public class AggregateBase
         var sb = new StringBuilder();
         enumerable.ToList<T>().ForEach(m => sb.Append(m+";"));
         return sb.ToString();
+    }
+    
+    public string NormalizedHash()
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(this.ToString());
+        return HashHelper.HashUtf8Bytes(bytes).Normalize().ToUpper();
     }
 }
