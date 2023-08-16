@@ -9,11 +9,11 @@ public class CommandsView
     
     public override string ToString()
     {
-        return $@"{Name} {HeadersToString()} {Body}";
+        return $@"{Name}{HeadersToString()} {Body}";
     }
     
     private string HeadersToString()
     {
-        return Headers.Aggregate(" ", string.Concat).Trim();
+        return Headers.Aggregate("", (current, header) => string.Concat(current, " ", header));
     }
 }

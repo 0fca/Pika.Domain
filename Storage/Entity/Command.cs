@@ -37,6 +37,7 @@ public class Command : AggregateBase
 
     private string HeadersToString()
     {
-        return Headers.Aggregate(" ", string.Concat);
+        var s = Headers.Aggregate(" ", string.Concat);
+        return s;
     }
 }
