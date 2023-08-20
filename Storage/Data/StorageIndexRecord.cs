@@ -9,16 +9,16 @@ namespace Pika.Domain.Storage.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Required]
-        public int Urlid { get; set; }
+        public int Id { get; set; }
 
         [Required] 
-        public string Urlhash { get; set; } = "";
+        public string Hash { get; set; } = "";
 
         [Required] 
-        public string AbsolutePath { get; set; } = "";
+        public string ObjectName { get; set; } = "";
 
         [Required] 
-        public string UserId { get; set; } = "";
+        public string BucketId { get; set; } = "";
 
         [Required]
         public bool Expires { get; set; }

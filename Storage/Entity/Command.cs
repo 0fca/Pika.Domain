@@ -21,7 +21,7 @@ public class Command : AggregateBase
 
     public override string ToString()
     {
-        return $@"{Name} {HeadersToString()} {Body}";
+        return $@"{Name}{HeadersToString()} {Body}";
     }
     
     private Command() { }
@@ -37,7 +37,6 @@ public class Command : AggregateBase
 
     private string HeadersToString()
     {
-        var s = Headers.Aggregate(" ", string.Concat);
-        return s;
+        return Headers.Aggregate("", (current, header) => string.Concat(current, " ", header));
     }
 }
