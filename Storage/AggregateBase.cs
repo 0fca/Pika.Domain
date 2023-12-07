@@ -34,9 +34,5 @@ public class AggregateBase
         return sb.ToString();
     }
     
-    public string NormalizedHash()
-    {
-        var bytes = System.Text.Encoding.UTF8.GetBytes(this.ToString());
-        return HashHelper.HashUtf8Bytes(bytes).Normalize().ToUpper();
-    }
+  
 }

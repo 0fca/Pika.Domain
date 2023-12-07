@@ -93,4 +93,10 @@ public sealed class Category : AggregateBase
     {
         return this.CollectionToString(this.Tags);
     }
+    
+    public string NormalizedHash()
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(this.ToString());
+        return HashHelper.HashUtf8Bytes(bytes).Normalize().ToUpper();
+    }
 }

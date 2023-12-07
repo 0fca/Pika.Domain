@@ -27,7 +27,7 @@ namespace Pika.Domain.Storage.Data
 
         public static DateTime ComputeDateTime()
         {
-            return DateTime.Now.AddDays(10);
+            return DateTime.UtcNow.AddDays(10);
         }
     }
 }
