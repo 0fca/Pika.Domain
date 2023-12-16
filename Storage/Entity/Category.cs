@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
+using Marten.Schema;
 using Pika.Domain.Infrastructure;
 using Pika.Domain.Storage.Entity.Event;
 
@@ -13,6 +14,8 @@ public sealed class Category : AggregateBase
     public string Description { get; set; }
 
     public Dictionary<string, List<string>>? Tags { get; set; } = new();
+    
+    public bool IsArchived { get; set; }
     
     public Category(string name, string description, List<string> mimes)
     {
@@ -55,6 +58,17 @@ public sealed class Category : AggregateBase
         Apply(categoryModified);
         AddUncommittedEvent(categoryModified);
     }
+
+    public void Remove()
+    {
+        var removeEvent = new CategoryRemoved
+        {
+            Guid = this.Id,
+            Remove = true
+        };
+        Apply(removeEvent);
+        AddUncommittedEvent(removeEvent);
+    }
     
     public void AddMimes(List<string>? mimes)
     {
@@ -83,13 +97,19 @@ public sealed class Category : AggregateBase
         Description = @event.Description;
         Version++;
     }
+    
+    private void Apply(CategoryRemoved @event)
+    {
+        IsArchived = @event.Remove;
+        Version++;
+    }
 
     public string GetMimesAsString()
     {
         return this.CollectionToString(this.Mimes);
     }
 
-    public string GetTagsAsString()
+    private string GetTagsAsString()
     {
         return this.CollectionToString(this.Tags);
     }

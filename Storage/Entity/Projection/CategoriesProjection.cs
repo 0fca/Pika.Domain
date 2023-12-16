@@ -12,6 +12,8 @@ public class CategoriesProjection : MultiStreamAggregation<CategoriesView, Guid>
         Identity<Category>(b => b.Id);
         Identity<CategoryCreated>(bc => bc.Guid);
         Identity<CategoryModified>(bc => bc.Id);
+        Identity<CategoryRemoved>(bc => bc.Guid);
+        DeleteEvent<CategoryRemoved>(bc => bc.Remove);
     }
 
     public void Apply(CategoryCreated bucketCreated, CategoriesView view)
@@ -30,5 +32,11 @@ public class CategoriesProjection : MultiStreamAggregation<CategoriesView, Guid>
         view.Description = bucketCreated.Description;
         view.Tags = bucketCreated.Tags;
         view.Mimes = bucketCreated.Mimes;
+    }
+
+    public void Apply(CategoryRemoved categoryRemoved, CategoriesView view)
+    {
+        view.Id = categoryRemoved.Guid;
+        view.IsArchived = categoryRemoved.Remove;
     }
 }

@@ -8,4 +8,5 @@ public class CategoriesView
     
     public HashSet<string> Mimes { get; set; }
     public Dictionary<string, List<string>> Tags { get; set; }
+    public bool IsArchived { get; set; }
 }
